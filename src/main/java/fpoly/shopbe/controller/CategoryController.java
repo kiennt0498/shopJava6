@@ -2,6 +2,7 @@ package fpoly.shopbe.controller;
 
 import fpoly.shopbe.DTO.CategoryDto;
 import fpoly.shopbe.domain.Category;
+import fpoly.shopbe.exception.CategoryException;
 import fpoly.shopbe.service.CategoryService;
 import fpoly.shopbe.service.MapValidationErrorService;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/ad/category")
+@CrossOrigin("*")
 public class CategoryController {
     @Autowired
     CategoryService service;
@@ -48,7 +50,7 @@ public class CategoryController {
         return new ResponseEntity(dto, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/ud/{id}")
+    @PatchMapping("ud/{id}")
     public ResponseEntity updateCategory(@PathVariable("id") Long id,
                                          @Valid @RequestBody CategoryDto dto,
                                          BindingResult result){
@@ -93,7 +95,7 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id){
         service.deleteById(id);
-        return new ResponseEntity<>("Xóa thành công", HttpStatus.OK);
+        return new ResponseEntity<>("Delete Done", HttpStatus.OK);
     }
 
 }
