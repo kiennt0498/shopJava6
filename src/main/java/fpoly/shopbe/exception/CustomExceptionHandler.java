@@ -32,4 +32,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ManufacturerException.class)
+    public final ResponseEntity<Object> handleFileStorageException(ManufacturerException ex, WebRequest request){
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage());
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 }
