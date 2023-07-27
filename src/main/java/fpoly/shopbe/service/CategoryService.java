@@ -32,7 +32,7 @@ public class CategoryService{
         Optional<Category> existed = dao.findById(id);
 
         if(existed.isEmpty()){
-            throw new CategoryException("Category id "+ id + " không tồn tại");
+            throw new CategoryException("Category id "+ id + " does not existed");
         }
 
         return existed.get();
@@ -65,7 +65,7 @@ public class CategoryService{
             exidtedCategory.setStatus(entity.getStatus());
             return dao.save(exidtedCategory);
         }catch (Exception e) {
-            throw new CategoryException("Cập nhật không thành công");
+            throw new CategoryException("Update faille");
         }
     }
 }

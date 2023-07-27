@@ -13,11 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "categorys")
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class Category  extends AbstractEntity{
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;

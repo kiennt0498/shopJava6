@@ -13,11 +13,8 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "manufacturer")
-public class Manufacturer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class Manufacturer extends AbstractEntity{
+
 
     @Column(name = "name", nullable = false)
     private String name;
