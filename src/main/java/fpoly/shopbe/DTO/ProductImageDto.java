@@ -1,17 +1,20 @@
 package fpoly.shopbe.DTO;
 
-import lombok.Data;
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Data
-@Value
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+
 public class ProductImageDto implements Serializable {
-    Long id;
-    String name;
-    String fileName;
-    String url;
+    private Long id;
+    private String name;
+    private String fileName;
+    private String url;
     private String status;
     private String resp = "{\"status\": \"success\"}";
 }
