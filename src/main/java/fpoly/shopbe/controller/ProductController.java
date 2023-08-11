@@ -55,6 +55,11 @@ public class ProductController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @GetMapping()
+    public ResponseEntity getProduct(){
+        return new ResponseEntity(service.findAll(), HttpStatus.OK);
+    }
+
 
     @PostMapping
     public ResponseEntity createProduct(@Valid @RequestBody ProductDto dto, BindingResult result){
@@ -70,7 +75,9 @@ public class ProductController {
 
     }
 
-    @PatchMapping("/update/{id}")
+
+
+    @PatchMapping("/ud/{id}")
     public ResponseEntity updateProduct(@PathVariable("id") Long id,
                                         @Valid @RequestBody ProductDto dto,
                                         BindingResult result){
@@ -104,6 +111,8 @@ public class ProductController {
                         + resource.getFilename()+"\"").body(resource);
     }
 
+
+
     @GetMapping("/find")
     public ResponseEntity findProduct(@RequestParam("query") String query, @PageableDefault(size = 5, sort = "name",
                                             direction = Sort.Direction.ASC)Pageable pageable){
@@ -116,4 +125,14 @@ public class ProductController {
 
         return new ResponseEntity<>("Product with id: "+ id + " was deleted", HttpStatus.OK);
     }
+
+    @DeleteMapping("images/{filename:.+}")
+    public ResponseEntity deleteImage(@PathVariable String filename, HttpServletRequest req){
+        file.deleteProductImageFile(filename);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+
 }

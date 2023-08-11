@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public class ProductService {
         String ignoreFields[] = new String[]{"createDate", "image", "images", "viewCount"};
         BeanUtils.copyProperties(dto, found, ignoreFields);
 
-        if(dto.getImage().getId() != null && found.getImage().getId() != dto.getImage().getId()){
+        if(dto.getImage() != null && dto.getImage().getId() != null && found.getImage().getId() != dto.getImage().getId()){
             ProductImage img = new ProductImage();
 
             BeanUtils.copyProperties(dto.getImage(), img);
@@ -166,5 +167,9 @@ public class ProductService {
 
         return newPage;
     }
+
+    public List findAll(){return (List) service.findAll();}
+
+    public Product findById(Long id){return service.findById(id).get();}
 
 }
