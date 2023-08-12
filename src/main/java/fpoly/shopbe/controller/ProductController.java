@@ -5,7 +5,9 @@ package fpoly.shopbe.controller;
 import fpoly.shopbe.DTO.ProductDto;
 import fpoly.shopbe.DTO.ProductImageDto;
 
+import fpoly.shopbe.domain.ProductImage;
 import fpoly.shopbe.exception.FileStorageException;
+import fpoly.shopbe.repository.ProductImageRepository;
 import fpoly.shopbe.repository.ProductRepository;
 import fpoly.shopbe.service.FileStorageService;
 import fpoly.shopbe.service.MapValidationErrorService;
@@ -41,6 +43,9 @@ public class ProductController {
     @Autowired
     ProductService service;
 
+    @Autowired
+    ProductImageRepository imgService;
+
     @PostMapping(value = "/images/one",consumes = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE},
@@ -49,6 +54,10 @@ public class ProductController {
         var fileInfo = file.storeUploadedProductImageFile(imageFile);
         ProductImageDto dto = new ProductImageDto();
         BeanUtils.copyProperties(fileInfo,dto);
+//        ProductImage img = new ProductImage();
+//        img.setName(dto.getName());
+//        img.setFileName(dto.getFileName());
+//        imgService.save(img);
         dto.setStatus("done");
         dto.setUrl("http://localhost:8080/api/ad/product/images/" + fileInfo.getFileName());
 

@@ -4,6 +4,7 @@ import fpoly.shopbe.DTO.ProductBriefDto;
 import fpoly.shopbe.DTO.ProductDto;
 import fpoly.shopbe.domain.Category;
 import fpoly.shopbe.domain.Product;
+
 import fpoly.shopbe.domain.ProductImage;
 import fpoly.shopbe.exception.ProductException;
 import fpoly.shopbe.repository.ProductImageRepository;
@@ -81,7 +82,19 @@ public class ProductService {
         cate.setId(dto.getCategoryId());
         found.setCategory(cate);
 
+
+
         if(dto.getImages().size()>0){
+
+            dto.getImages().stream().forEach(item ->{
+                if(item.getId() == null){
+                    ProductImage newImage = new ProductImage();
+                    BeanUtils.copyProperties(item, newImage);
+                    var img = imageService.save(newImage);
+                    item.setId(img.getId());
+                }
+            });
+
             var toDeleteFile = new ArrayList<ProductImage>();
             found.getImages().stream().map(item ->{
                 var existed = dto.getImages().stream().anyMatch(img ->img.getId() == item.getId());
@@ -94,7 +107,7 @@ public class ProductService {
             if(toDeleteFile.size()>0){
                 toDeleteFile.stream().forEach(item->{
                     file.deleteProductImageFile(item.getFileName());
-                    imageService.delete(item);
+                    if(item.getId() != null) imageService.delete(item);
                 });
             }
 
