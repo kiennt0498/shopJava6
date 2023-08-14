@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-
+@Slf4j
 public class JwtService {
     @Value(value = "${jwt.secret}")
     private String secret;
@@ -25,7 +25,7 @@ public class JwtService {
                 .claim("role", details.getAuthorities())
                 .setIssuedAt(now)
                 .setExpiration(expiration)
-                .signWith(SignatureAlgorithm.ES256, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
@@ -49,13 +49,14 @@ public class JwtService {
 
             return true;
         }catch (ExpiredJwtException e){
-            throw new AccountException(e.getMessage());
+            log.error("Expired JWT Token");
         }catch (MalformedJwtException e){
-            throw new AccountException(e.getMessage());
+            log.error("Malformed JWT Token");
         }catch (UnsupportedJwtException e){
-            throw new AccountException(e.getMessage());
+            log.error("Unsupported JWT Token");
         }catch (IllegalArgumentException e){
-            throw new AccountException(e.getMessage());
+            log.error("JWT claims String is empty");
         }
+        return false;
     }
 }

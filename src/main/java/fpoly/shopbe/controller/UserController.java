@@ -7,8 +7,11 @@ import fpoly.shopbe.domain.CustomUserDetails;
 import fpoly.shopbe.jwt.JwtService;
 import fpoly.shopbe.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,19 +34,28 @@ public class UserController {
     private AccountService accountService;
 
     @PostMapping("login")
-    public ResponseEntity loginService(@Valid @RequestBody AccountLoginDto dto, BindingResult result){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword())
-        );
+    public ResponseEntity<?> loginService(@Valid @RequestBody AccountLoginDto dto, BindingResult result) {
+        try {
+            // Xác thực đăng nhập với mật khẩu không mã hóa
+            if (dto.getUsername() != null && dto.getPassword() != null) {
+                Authentication authentication = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
+                authentication = authenticationManager.authenticate(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        String jwt = jwtService.accountToken(customUserDetails);
+                CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+                String jwt = jwtService.accountToken(customUserDetails);
 
-        JwtResponseDto token = new JwtResponseDto(jwt, customUserDetails.getUsername(), customUserDetails.getAuthorities().toString());
+                JwtResponseDto token = new JwtResponseDto(jwt, customUserDetails.getUsername(), customUserDetails.getAuthorities().toString());
 
-        return ResponseEntity.ok(token);
+                return ResponseEntity.ok(token);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing username or password");
+            }
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
     }
-
 }

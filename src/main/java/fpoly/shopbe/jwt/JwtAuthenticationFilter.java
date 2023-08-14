@@ -1,7 +1,9 @@
 package fpoly.shopbe.jwt;
 
-import fpoly.shopbe.domain.CustomUserDetails;
+
 import fpoly.shopbe.service.CustomUserDetailsService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
+    @Autowired
     private JwtService service;
 
-
+    @Autowired
     private CustomUserDetailsService detailsService;
 
     private String getJwtFromReq(HttpServletRequest request){
@@ -48,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("fail on set user authentication",e);
         }
         filterChain.doFilter(request,response);
     }
