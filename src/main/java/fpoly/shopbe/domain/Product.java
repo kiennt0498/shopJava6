@@ -1,14 +1,13 @@
 package fpoly.shopbe.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -67,7 +66,9 @@ public class Product extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "productImages_id"))
     private Set<ProductImage> images = new LinkedHashSet<>();
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", orphanRemoval = true)
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

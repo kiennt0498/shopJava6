@@ -7,18 +7,19 @@ import lombok.Value;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-
+/**
+ * DTO for {@link fpoly.shopbe.domain.Order}
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CustomersDto implements Serializable {
+@NoArgsConstructor
+public class OrderDto implements Serializable {
     Long id;
-    String fullname;
-    String email;
     Date createDate;
-    String phone;
     String address;
-    ProductImageDto photoImage;
-
+    Long cusId;
+    List<OrderDetailDto> orderDetails;
+    CustomersDto customers;
 }

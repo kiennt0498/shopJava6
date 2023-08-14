@@ -78,6 +78,15 @@ public class ProductService {
             imageService.save(img);
             found.setImage(img);
         }
+
+         if(dto.getImage() != null && dto.getImage().getId() == null){
+            ProductImage img = new ProductImage();
+
+            BeanUtils.copyProperties(dto.getImage(), img);
+
+            imageService.save(img);
+            found.setImage(img);
+        }
         var cate = new Category();
         cate.setId(dto.getCategoryId());
         found.setCategory(cate);

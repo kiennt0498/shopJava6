@@ -1,10 +1,13 @@
 package fpoly.shopbe.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +29,15 @@ public class Customers extends AbstractEntity{
     @JoinColumn(name = "photo_image_id")
     private ProductImage photoImage;
 
+    @Column(name = "phone", length = 15)
+    private String phone;
+
+    @Column(name = "address")
+    private String address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customers", orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

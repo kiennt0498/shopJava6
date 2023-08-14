@@ -6,19 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomersDto implements Serializable {
+public class OrderDetailDto implements Serializable {
     Long id;
-    String fullname;
-    String email;
-    Date createDate;
-    String phone;
-    String address;
-    ProductImageDto photoImage;
+    Long price;
+    Integer quantity;
+    Long productId;
+    ProductDto product;
 
 }
