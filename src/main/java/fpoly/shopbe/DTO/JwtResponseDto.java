@@ -17,4 +17,5 @@ public class JwtResponseDto implements Serializable {
     String token;
     String username;
     String role;
+
 }

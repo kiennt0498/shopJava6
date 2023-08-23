@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = { "*" })
 @RequestMapping("api/ad/cus")
 public class CustomerController {
     @Autowired
@@ -29,5 +29,11 @@ public class CustomerController {
         }
         var savedto = service.updateCus(id,dto);
         return new ResponseEntity<>(savedto, HttpStatus.CREATED);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity getCus(@PathVariable String id){
+        CustomersDto dto =  service.getByUsername(id);
+        System.out.println(dto);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 }

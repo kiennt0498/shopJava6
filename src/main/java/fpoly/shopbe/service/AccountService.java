@@ -40,9 +40,12 @@ public class AccountService {
         Customers cs = new Customers();
 
 
+
         var saveCs = csService.save(cs);
 
         entity.setCustomers(saveCs);
+
+        entity.setAccountRoles(AccountRoles.GUEST) ;
 
 
         service.save(entity);

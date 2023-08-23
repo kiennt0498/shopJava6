@@ -39,6 +39,11 @@ public class Customers extends AbstractEntity{
     @OneToMany(mappedBy = "customers", orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
+@JsonIgnore
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "account_username")
+    private Account account;
+
     @PrePersist
     public void prePersist() {
         createDate = new Date();

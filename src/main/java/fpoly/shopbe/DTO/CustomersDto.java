@@ -20,5 +20,6 @@ public class CustomersDto implements Serializable {
     String phone;
     String address;
     ProductImageDto photoImage;
+    AccountDto username;
 
 }

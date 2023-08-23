@@ -21,20 +21,7 @@ public class OrderController {
     @Autowired
     MapValidationErrorService errorService;
 
-    @PostMapping()
-    public ResponseEntity createOrder(@Valid @RequestBody OrderDto dto, BindingResult result){
 
-        ResponseEntity error = errorService.mapValidationFields(result);
-
-        if(error != null){
-            return error;
-        }
-
-        var saveDto = service.insterOrder(dto);
-
-        return new ResponseEntity(saveDto, HttpStatus.CREATED);
-
-    }
 
     @GetMapping()
     public ResponseEntity getListOd(){

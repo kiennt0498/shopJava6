@@ -52,4 +52,14 @@ public class CustomerService {
         return dto;
 
     }
+    public CustomersDto getByUsername(String username){
+        var found = dao.findByAccount_Username(username);
+
+        CustomersDto dto = new CustomersDto();
+        BeanUtils.copyProperties(found, dto);
+        AccountDto ac = new AccountDto();
+        ac.setUsername(found.getAccount().getUsername());
+        dto.setUsername(ac);
+        return dto;
+    }
 }

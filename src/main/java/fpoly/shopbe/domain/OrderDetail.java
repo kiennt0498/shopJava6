@@ -13,8 +13,6 @@ import javax.persistence.*;
 public class OrderDetail extends AbstractEntity{
 
 
-    @Column(name = "price")
-    private Long price;
 
     @Column(name = "quantity")
     private Integer quantity;

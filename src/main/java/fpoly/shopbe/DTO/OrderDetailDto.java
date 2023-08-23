@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class OrderDetailDto implements Serializable {
     Long id;
-    Long price;
+
     Integer quantity;
     Long productId;
     ProductDto product;

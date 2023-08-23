@@ -29,6 +29,7 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity createAcc(@Valid @RequestBody AccountDto dto, BindingResult result){
+        System.out.println("run");
 
         ResponseEntity error = errorService.mapValidationFields(result);
 

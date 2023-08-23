@@ -13,6 +13,7 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
+
     public CustomUserDetails(Account account) {
         this.username = account.getUsername();
         this.password = account.getPassword();

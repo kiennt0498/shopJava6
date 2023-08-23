@@ -27,6 +27,7 @@ public class Order extends AbstractEntity{
     @OneToMany(mappedBy = "order", orphanRemoval = true)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customers_id")
     private Customers customers;
